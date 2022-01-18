@@ -1,4 +1,5 @@
 const express = require("express");
+const ejs = require("ejs");
 const markdownConverter = require("markdown-it")();
 const fs = require("fs");
 const path = require("path");
@@ -19,9 +20,16 @@ app.get("/post/:postId", (req, res) => {
         res.status(404).end();
         return;
     }
-    let postMarkdown = fs.readFileSync(path.join(__dirname, "posts", postId), "utf-8");
+    let postMarkdown = fs.readFileSync(path.join(__dirname, "posts", postId, "content.md"), "utf-8");
+    let postMetaData = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "posts", postId, "metadata.json"))
+    );
+    console.log(postMetaData);
     let postHTML = markdownConverter.render(postMarkdown);
-    res.send(postHTML);
+    res.render("post", {
+        content: postHTML,
+        metadata: postMetaData
+    });
 });
 
 const PORT = process.env.PORT | 3000;
