@@ -1,8 +1,19 @@
 const express = require("express");
-const ejs = require("ejs");
-const markdownConverter = require("markdown-it")();
+const hljs = require('highlight.js/lib/common');
 const fs = require("fs");
 const path = require("path");
+const markdownConverter = require('markdown-it')({
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return '<pre class="hljs"><code>' +
+                   hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+                   '</code></pre>';
+            } catch (__) {}
+        }
+        return '<pre class="hljs"><code>' + str + '</code></pre>';
+    }
+});
 
 const app = express();
 
