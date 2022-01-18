@@ -5,11 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<%= metadata.description %> ">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title><%= metadata.title %></title>
+    <style>
+        
+    </style>
 </head>
 <body>
     
-    <%- content %>
+    <nav class="navbar navbar-light bg-light p-3">
+        <div class="container-fluid">
+            <a class="navbar-brand text-primary" href="/index">Abdallah Ahmed</a>
+            <form class="d-flex">
+                <button type="button" class="btn btn-outline-primary">About me</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="heading p-5">
+        <h1 class="lead text-center display-6">Why Google Summer of Code is a golden opportunity? </h1>
+    </div>
+
+    <article class="container px-5"><%- content %></article>
+
 
 </body>
 </html>
