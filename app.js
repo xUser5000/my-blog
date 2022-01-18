@@ -20,10 +20,21 @@ const app = express();
 app.use("/static", express.static("static"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => res.redirect("/index"));
-app.get("/index", (req, res) => res.render("index"));
+let posts = fs.readdirSync(path.join(__dirname, "posts")).reverse();
 
-let posts = fs.readdirSync(path.join(__dirname, "posts"));
+app.get("/", (req, res) => res.redirect("/index"));
+app.get("/index", (req, res) => {
+    let feed = posts.map(post => {
+        let metaData = JSON.parse(
+            fs.readFileSync(path.join(__dirname, "posts", post, "metadata.json"))
+        );
+        return {
+            ...metaData,
+            url: post
+        };
+    });
+    res.render("index", { posts: feed });
+});
 
 app.get("/post/:postId", (req, res) => {
     let { postId } = req.params;
@@ -35,7 +46,6 @@ app.get("/post/:postId", (req, res) => {
     let postMetaData = JSON.parse(
         fs.readFileSync(path.join(__dirname, "posts", postId, "metadata.json"))
     );
-    console.log(postMetaData);
     let postHTML = markdownConverter.render(postMarkdown);
     res.render("post", {
         content: postHTML,

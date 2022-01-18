@@ -29,10 +29,12 @@
         <p class="lead text-center">Just a Computer Science Enthusiast</p>
 
         <ul class="pt-5" style="list-style-type: none;">
+            <% posts.forEach(post => { %>
             <li class="py-3">
-                <span class="badge bg-secondary me-2">18 Jan 2022</span>
-                <a class="text-secondary" href="#">Why Google Summer of Code is a golden opportunity?</a>
+                <span class="badge bg-secondary me-2"><%= post.date %> </span>
+                <a class="text-secondary" href="/post/<%= post.url %>"><%= post.title %> </a>
             </li>
+            <% }); %>
         </ul>
     </main>
 
