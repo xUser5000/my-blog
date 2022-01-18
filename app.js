@@ -35,6 +35,9 @@ app.get("/index", (req, res) => {
     });
     res.render("index", { posts: feed });
 });
+app.get("/about", (req, res) => {
+    res.render("about");
+});
 
 app.get("/post/:postId", (req, res) => {
     let { postId } = req.params;
