@@ -1,7 +1,8 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const compression = require('compression')
+const compression = require('compression');
+const morgan = require("morgan");
 const { markdownConverter } = require("./util/markdownConverter");
 const { parseDate, toString } = require("./util/DateUtil");
 
@@ -10,6 +11,8 @@ const app = express();
 app.use("/static", express.static("static"));
 app.use(compression());
 app.set("view engine", "ejs");
+if (process.env.NODE_ENV === "production") app.use(morgan("common"));
+else app.use(morgan("dev"));
 
 let posts = fs.readdirSync(path.join(__dirname, "posts")).reverse();
 
