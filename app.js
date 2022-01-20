@@ -14,6 +14,7 @@ const markdownConverter = require('markdown-it')({
         return '<pre class="hljs"><code>' + str + '</code></pre>';
     }
 });
+const { parseDate, toString } = require("./util/DateUtil");
 
 const app = express();
 
@@ -29,7 +30,9 @@ app.get("/index", (req, res) => {
             fs.readFileSync(path.join(__dirname, "posts", post, "metadata.json"))
         );
         return {
-            ...metadata,
+            title: metadata.title,
+            description: metadata.description,
+            date: toString(parseDate(metadata.date)),
             url: post
         };
     });
@@ -52,7 +55,9 @@ app.get("/post/:postId", (req, res) => {
     let postHTML = markdownConverter.render(postMarkdown);
     res.render("post", {
         content: postHTML,
-        ...postMetaData
+        title: postMetaData.title,
+        description: postMetaData.description,
+        date: toString(parseDate(postMetaData.date))
     });
 });
 
