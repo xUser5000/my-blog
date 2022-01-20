@@ -19,6 +19,7 @@
   "author": "Abdallah Ahmed",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.7.4",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "highlight.js": "^11.4.0",

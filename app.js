@@ -1,12 +1,14 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const compression = require('compression')
 const { markdownConverter } = require("./util/markdownConverter");
 const { parseDate, toString } = require("./util/DateUtil");
 
 const app = express();
 
 app.use("/static", express.static("static"));
+app.use(compression());
 app.set("view engine", "ejs");
 
 let posts = fs.readdirSync(path.join(__dirname, "posts")).reverse();
