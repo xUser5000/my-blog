@@ -25,11 +25,11 @@ let posts = fs.readdirSync(path.join(__dirname, "posts")).reverse();
 app.get("/", (req, res) => res.redirect("/index"));
 app.get("/index", (req, res) => {
     let feed = posts.map(post => {
-        let metaData = JSON.parse(
+        let metadata = JSON.parse(
             fs.readFileSync(path.join(__dirname, "posts", post, "metadata.json"))
         );
         return {
-            ...metaData,
+            ...metadata,
             url: post
         };
     });
@@ -52,7 +52,7 @@ app.get("/post/:postId", (req, res) => {
     let postHTML = markdownConverter.render(postMarkdown);
     res.render("post", {
         content: postHTML,
-        metadata: postMetaData
+        ...postMetaData
     });
 });
 
