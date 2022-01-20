@@ -21,13 +21,10 @@ app.get("/index", (req, res) => {
             title: metadata.title,
             description: metadata.description,
             date: toString(parseDate(metadata.date)),
-            url: post
+            url: "/post/" + post
         };
     });
     res.render("index", { posts: feed });
-});
-app.get("/about", (req, res) => {
-    res.render("about");
 });
 
 app.get("/post/:postId", (req, res) => {
@@ -47,6 +44,10 @@ app.get("/post/:postId", (req, res) => {
         description: postMetaData.description,
         date: toString(parseDate(postMetaData.date))
     });
+});
+
+app.get("/about", (req, res) => {
+    res.render("about");
 });
 
 const PORT = process.env.PORT | 3000;
