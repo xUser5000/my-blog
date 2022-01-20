@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "This is my personal blog where I share some of my own thoughts and experiences.",
   "main": "app.js",
+  "repository": {
+    "url": "https://github.com/xUser5000/my-blog"
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
