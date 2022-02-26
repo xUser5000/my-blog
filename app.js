@@ -5,6 +5,7 @@ const compression = require('compression');
 const morgan = require("morgan");
 const { markdownConverter } = require("./util/markdownConverter");
 const { parseDate, toString } = require("./util/DateUtil");
+const { getReadTime } = require("./util/getReadTime");
 
 const app = express();
 
@@ -58,7 +59,8 @@ app.get("/post/:postId", (req, res) => {
         content: postHTML,
         title: postMetaData.title,
         description: postMetaData.description,
-        date: toString(parseDate(postMetaData.date))
+        date: toString(parseDate(postMetaData.date)),
+        readTime: getReadTime(postHTML)
     });
 });
 

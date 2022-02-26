@@ -36,6 +36,10 @@
 
     <div class="heading p-5">
         <h1 class="lead text-center display-6"><%= title %> </h1>
+        <p class="text-center text-muted">
+            Expected Reading Time:
+            <%= readTime != 0 ? readTime + " minutes" : "Less than a minute" %>
+        </p>
     </div>
 
     <article class="container px-5 mb-5"><%- content %></article>
