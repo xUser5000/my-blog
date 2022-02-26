@@ -8,6 +8,7 @@ I wanna thank these amazing people for helping me in writing this article and pr
 - [Ahmad Mamdouh](https://www.linkedin.com/in/ahmad45123/)
 - [Ahmed Ibrahim](https://www.linkedin.com/in/ahmedibrahim404/)
 - [Ibrahim Abou Elenein](https://www.linkedin.com/in/aboueleyes/)
+- [Moamen Zakaria](https://www.linkedin.com/in/moamen-zakaria-465543177/)
 
 I hope you have a nice and interesting reading time!
 
