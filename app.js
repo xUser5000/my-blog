@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const { markdownConverter } = require("./util/markdownConverter");
 const { parseDate, toString } = require("./util/DateUtil");
 const { getReadTime } = require("./util/getReadTime");
+const { CacheStorage } = require("./cache");
 
 const app = express();
 
@@ -29,6 +30,20 @@ app.use((req, res, next) => {
 let posts = fs.readdirSync(path.join(__dirname, "posts")).reverse();
 
 app.get("/", (req, res) => res.redirect("/index"));
+
+/* Setup the caching layer */
+let cacheStorage = new CacheStorage();
+app.use((req, res, next) => {
+    if (cacheStorage.has(req.url)) {
+        // Cache hit
+        let entry = cacheStorage.get(req.url);
+        res.render(entry.view, entry.data);
+    } else {
+        // Cache miss
+        next();
+    }
+});
+
 app.get("/index", (req, res) => {
     let feed = posts.map(post => {
         let metadata = JSON.parse(
@@ -41,7 +56,12 @@ app.get("/index", (req, res) => {
             url: "/post/" + post
         };
     });
-    res.render("index", { posts: feed });
+    let entry = {
+        view: "index",
+        data: { posts: feed }
+    };
+    cacheStorage.store(req.url, entry);
+    res.render(entry.view, entry.data);
 });
 
 app.get("/post/:postId", (req, res) => {
@@ -55,13 +75,18 @@ app.get("/post/:postId", (req, res) => {
         fs.readFileSync(path.join(__dirname, "posts", postId, "metadata.json"))
     );
     let postHTML = markdownConverter.render(postMarkdown);
-    res.render("post", {
-        content: postHTML,
-        title: postMetaData.title,
-        description: postMetaData.description,
-        date: toString(parseDate(postMetaData.date)),
-        readTime: getReadTime(postHTML)
-    });
+    let entry = {
+        view: "post",
+        data: {
+            content: postHTML,
+            title: postMetaData.title,
+            description: postMetaData.description,
+            date: toString(parseDate(postMetaData.date)),
+            readTime: getReadTime(postHTML)
+        }
+    };
+    cacheStorage.store(req.url, entry);
+    res.render(entry.view, entry.data);
 });
 
 app.get("/about", (req, res) => {
